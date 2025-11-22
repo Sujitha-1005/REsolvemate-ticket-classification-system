@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ResolveMate - Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif;
+      background:linear-gradient(to bottom,#E5D9F2,#CDC1FF);
+      color:#222;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
+    header{
+      background:rgba(255,255,255,.95);
+      backdrop-filter:blur(10px);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:15px 30px;
+      box-shadow:0 4px 15px rgba(0,0,0,.15);
+      transition:all .4s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    header:before{
+      content:'';
+      position:absolute;
+      top:0;
+      left:-100%;
+      width:100%;
+      height:100%;
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
+      transition:left .6s;
+    }
+    header:hover:before{
+      left:100%;
+    }
+    header h1{
+      color:#004b6b;
+      font-size:1.8rem;
+      text-shadow:0 2px 4px rgba(0,75,107,.1);
+      transition:all .3s ease;
+    }
+    header h1:hover{
+      transform:scale(1.05);
+      color:#006c94;
+    }
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .nav-right{
+      display:flex;
+      align-items:center;
+      gap:20px;
+    }
+    .nav-btn {
+      background: #004b6b;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all .3s ease;
+      position:relative;
+      overflow:hidden;
+      z-index:1;
+      box-shadow:0 4px 10px rgba(0,75,107,.2);
+    }
+    .nav-btn:before{
+      content:'';
+      position:absolute;
+      top:0;
+      left:0;
+      width:0%;
+      height:100%;
+      background:#006c94;
+      transition:width .4s ease;
+      z-index:-1;
+      border-radius:8px;
+    }
+    .nav-btn:hover{
+      transform:translateY(-3px);
+      box-shadow:0 8px 20px rgba(0,75,107,.3);
+    }
+    .nav-btn:hover:before{
+      width:100%;
+    }
+    .nav-btn:active{
+      transform:translateY(0);
+      box-shadow:0 3px 7px rgba(0,75,107,.2);
+    }
+    .nav-btn.active {
+      background: #006c94;
+      box-shadow: 0 0 0 3px rgba(0, 107, 148, 0.3);
+      transform:translateY(-2px);
+    }
+    .user-welcome{
+      font-weight:600;
+      color:#004b6b;
+      padding:10px 15px;
+      
+      border-radius:8px;
+      transition:all .3s ease;
+      backdrop-filter:blur(5px);
+    }
+    .user-welcome:hover{
+      background:rgba(0,75,107,.2);
+      transform:translateY(-2px);
+    }
+    .logout{
+      background:#c62828;
+      color:#fff;
+      padding:12px 20px;
+      border-radius:8px;
+      text-decoration:none;
+      font-weight:600;
+      transition: all .3s ease;
+      position:relative;
+      overflow:hidden;
+      z-index:1;
+      box-shadow:0 4px 10px rgba(198,40,40,.2);
+    }
+    .logout:before{
+      content:'';
+      position:absolute;
+      top:0;
+      left:0;
+      width:0%;
+      height:100%;
+      background:#d32f2f;
+      transition:width .4s ease;
+      z-index:-1;
+      border-radius:8px;
+    }
+    .logout:hover {
+      transform:translateY(-3px);
+      box-shadow:0 8px 20px rgba(198,40,40,.3);
+    }
+    .logout:hover:before{
+      width:100%;
+    }
+    .logout:active{
+      transform:translateY(0);
+    }
+    main{
+      flex:1;
+      display:flex;
+      justify-content:center;
+      padding:40px 20px;
+    }
+    .card{
+      max-width:750px;
+      width:100%;
+      background:rgba(255,255,255,.85);
+      backdrop-filter:blur(10px);
+      border-radius:16px;
+      padding:40px;
+      box-shadow:0 10px 30px rgba(0,0,0,.1);
+      transition:all .4s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    .card:before{
+      content:'';
+      position:absolute;
+      top:-50%;
+      left:-50%;
+      width:200%;
+      height:200%;
+      background:linear-gradient(45deg,transparent,rgba(0,75,107,.05),transparent);
+      transform:rotate(45deg);
+      transition:all .6s ease;
+      opacity:0;
+    }
+    .card:hover{
+      transform:translateY(-8px);
+      box-shadow:0 20px 40px rgba(0,75,107,.15);
+    }
+    .card:hover:before{
+      opacity:1;
+      transform:rotate(45deg) translate(50%,50%);
+    }
+    h2{
+      color:#004b6b;
+      margin-bottom:10px;
+      text-align:center;
+      font-size:2rem;
+      text-shadow:0 2px 4px rgba(0,75,107,.1);
+      transition:all .3s ease;
+      position:relative;
+      z-index:2;
+    }
+    h2:hover{
+      transform:scale(1.02);
+      color:#006c94;
+    }
+    p.subtitle{
+      text-align:center;
+      margin-bottom:25px;
+      color:#555;
+      font-size:1.1rem;
+      position:relative;
+      z-index:2;
+    }
+    label{
+      display:block;
+      margin-bottom:12px;
+      font-weight:600;
+      color:#004b6b;
+      font-size:1.1rem;
+      position:relative;
+      z-index:2;
+    }
+    textarea{
+      width:100%;
+      height:150px;
+      padding:15px;
+      border:2px solid #ddd;
+      border-radius:8px;
+      resize:vertical;
+      font-size:1rem;
+      transition:all .3s ease;
+      position:relative;
+      z-index:2;
+      backdrop-filter:blur(5px);
+      background:rgba(255,255,255,.9);
+    }
+    textarea:focus{
+      border-color:#004b6b;
+      outline:none;
+      box-shadow:0 0 0 4px rgba(0,75,107,.15);
+      transform:translateY(-2px);
+      background:rgba(255,255,255,1);
+    }
+    .btn{
+      background:#004b6b;
+      color:#fff;
+      border:none;
+      border-radius:8px;
+      padding:16px 25px;
+      margin-top:20px;
+      font-size:1.1rem;
+      font-weight:bold;
+      cursor:pointer;
+      width:100%;
+      transition:all .3s ease;
+      position:relative;
+      overflow:hidden;
+      z-index:2;
+      box-shadow:0 4px 15px rgba(0,75,107,.2);
+    }
+    .btn:before{
+      content:'';
+      position:absolute;
+      top:0;
+      left:0;
+      width:0%;
+      height:100%;
+      background:#006c94;
+      transition:width .4s ease;
+      z-index:-1;
+      border-radius:8px;
+    }
+    .btn:hover{
+      transform:translateY(-3px);
+      box-shadow:0 8px 25px rgba(0,75,107,.3);
+    }
+    .btn:hover:before{
+      width:100%;
+    }
+    .btn:active{
+      transform:translateY(0);
+      box-shadow:0 3px 10px rgba(0,75,107,.2);
+    }
+    .status{
+      margin-top:15px;
+      font-size:.95rem;
+      color:#004b6b;
+      text-align:center;
+      font-weight:600;
+      position:relative;
+      z-index:2;
+    }
+    .examples{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top: 15px;
+      margin-bottom:25px;
+      justify-content:center;
+      position:relative;
+      z-index:2;
+    }
+    .examples button{
+      background:rgba(238,238,238,.9);
+      backdrop-filter:blur(5px);
+      border:2px solid #ccc;
+      padding:10px 18px;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:600;
+      transition:all .3s ease;
+      position:relative;
+      overflow:hidden;
+      z-index:1;
+      box-shadow:0 2px 8px rgba(0,0,0,.1);
+    }
+    .examples button:before{
+      content:'';
+      position:absolute;
+      top:0;
+      left:0;
+      width:0%;
+      height:100%;
+      background:#004b6b;
+      transition:width .3s ease;
+      z-index:-1;
+      border-radius:6px;
+    }
+    .examples button:hover{
+      color:#fff;
+      border-color:#004b6b;
+      transform:translateY(-3px);
+      box-shadow:0 6px 15px rgba(0,75,107,.2);
+    }
+    .examples button:hover:before{
+      width:100%;
+    }
+    .examples button:active{
+      transform:translateY(0);
+      box-shadow:0 2px 6px rgba(0,75,107,.2);
+    }
+
+    /* Loading animation */
+    .loading {
+      position: relative;
+    }
+    .loading:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      margin: -10px 0 0 -10px;
+      border: 2px solid transparent;
+      border-top: 2px solid #fff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px;
+      }
+      .nav-left, .nav-right {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .card {
+        margin: 0 10px;
+        padding: 30px 20px;
+      }
+      .examples {
+        gap: 8px;
+      }
+      .examples button {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-left">
+      <h1>ResolveMate.</h1>
+      <a href="#" class="nav-btn active"><i class="fa fa-tachometer-alt"></i> Dashboard</a>
+      <a href="{{ url_for('history') }}" class="nav-btn"><i class="fa fa-history"></i> History</a>
+    </div>
+    <div class="nav-right">
+      <span class="user-welcome">Welcome, <span id="navUserName">User</span></span>
+      <a href="#" id="logoutBtn" class="logout"><i class="fa fa-sign-out-alt"></i> Logout</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="card">
+      <h2>Ticket Classification System</h2>
+      <p class="subtitle">Enter a customer message or choose an example below:</p>
+
+      <label for="customerMessage"><strong>Customer Message</strong></label>
+      <textarea id="customerMessage" placeholder="Type or pick an example below..."></textarea>
+      
+      <div class="examples">
+        <button data-type="billing"><i class="fa fa-credit-card"></i> Billing</button>
+        <button data-type="technical"><i class="fa fa-cogs"></i> Technical</button>
+        <button data-type="account"><i class="fa fa-user"></i> Account</button>
+        <button data-type="product"><i class="fa fa-box"></i> Product</button>
+        <button data-type="general"><i class="fa fa-comments"></i> General</button>
+      </div>
+
+      <button class="btn" id="classifyBtn"><i class="fa fa-search"></i> Classify Ticket</button>
+      <div class="status" id="statusMsg"></div>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC7XHh5sxVlTscd1zx0lfS9ZW0szYsP4dk",
+      authDomain: "resolvemate-c4ecf.firebaseapp.com",
+      projectId: "resolvemate-c4ecf",
+      storageBucket: "resolvemate-c4ecf.appspot.com",
+      messagingSenderId: "909784257137",
+      appId: "1:909784257137:web:4eef0d71776fed0c3301d0",
+      measurementId: "G-YJ0RP7Q936"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db   = getFirestore(app);
+
+    const navUserName = document.getElementById('navUserName');
+    const statusMsg   = document.getElementById('statusMsg');
+    const classifyBtn = document.getElementById('classifyBtn');
+
+    const examples = {
+      billing:   "I've been charged twice for my subscription this month. Can you please help me get a refund for the duplicate charge?",
+      technical: "The login page keeps showing error 500 when I try to sign in. I've cleared my browser cache but still having issues.",
+      account:   "I forgot my password and the reset email isn't coming through. Can you help me regain access to my account?",
+      product:   "I'm interested in upgrading to the premium plan. What additional features would I get and how much does it cost?",
+      general:   "Your customer service team was amazing! They solved my issue within minutes. Great job!"
+    };
+
+    document.querySelectorAll('.examples button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const type = btn.getAttribute('data-type');
+        const textarea = document.getElementById('customerMessage');
+        textarea.value = examples[type];
+        textarea.focus();
+        // Add a subtle animation to show the text was inserted
+        textarea.style.transform = 'scale(1.02)';
+        setTimeout(() => {
+          textarea.style.transform = 'scale(1)';
+        }, 200);
+      });
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "{{ url_for('login') }}";
+        return;
+      }
+      const docRef = doc(db, "users", user.uid);
+      const snap   = await getDoc(docRef);
+      navUserName.textContent = snap.exists() ? (snap.data().full_name || "User") : user.email;
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const prefillText = urlParams.get('prefill');
+      if (prefillText) {
+        document.getElementById('customerMessage').value = decodeURIComponent(prefillText);
+      }
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      signOut(auth).then(() => { window.location.href = "/login"; });
+    });
+
+    document.getElementById('classifyBtn').addEventListener('click', async () => {
+      const message = document.getElementById('customerMessage').value.trim();
+      if (!message) { 
+        statusMsg.textContent = "Please enter a message."; 
+        statusMsg.style.color = "#c62828";
+        return; 
+      }
+      
+      // Add loading state
+      classifyBtn.classList.add('loading');
+      classifyBtn.disabled = true;
+      statusMsg.textContent = "Classifying ticket...";
+      statusMsg.style.color = "#004b6b";
+
+      try {
+        const resp = await fetch("/predict", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: message })
+        });
+        if (!resp.ok) throw new Error("Server error");
+        const data = await resp.json();
+
+        const user = auth.currentUser;
+        await addDoc(collection(db, "predictions"), {
+          user_id: user.uid,
+          text: message,
+          category: data.category,
+          subcategory: data.subcategory,
+          urgency: data.urgency,
+          sentiment: data.sentiment,
+          invoice: data.invoice,
+          template: data.template,
+          timestamp: serverTimestamp()
+        });
+
+        window.location.href = "/results?text=" + encodeURIComponent(message);
+      } catch (err) {
+        console.error(err);
+        statusMsg.textContent = "Error: " + err.message;
+        statusMsg.style.color = "#c62828";
+      } finally {
+        // Remove loading state
+        classifyBtn.classList.remove('loading');
+        classifyBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+# Core ML & NLP
+torch
+transformers
+scikit-learn
+numpy
+pandas
+joblib
+tqdm
+
+# Model & Tokenization
+sentencepiece
+tokenizers
+
+# Web App (Flask)
+flask
+flask-cors
+
+# OpenAI API client
+openai
+
+# CLI / Utility
+argparse
+

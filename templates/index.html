@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ResolveMate - Smart Ticket System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #E5D9F2 0%, #CDC1FF 50%, #A594F9 100%);
+      color: #222;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 15px;
+      position: relative;
+    }
+
+    /* Animated background elements */
+    body {
+      font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif;
+      background:linear-gradient(to bottom,#E5D9F2,#CDC1FF);
+      color:#222;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
+     
+    @keyframes float {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      100% { transform: translate(-60px, -60px) rotate(360deg); }
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.3; }
+      50% { transform: scale(1.2) rotate(180deg); opacity: 0.1; }
+    }
+
+    .container {
+      max-width: 750px;
+      width: 100%;
+      text-align: center;
+      padding: 30px 40px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.1),
+        0 1px 0 rgba(255, 255, 255, 0.6) inset;
+      transition: all 0.4s ease;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .container:before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(0,75,107,0.02), transparent);
+      transform: rotate(45deg);
+      transition: all 0.8s ease;
+      opacity: 0;
+    }
+
+    .container:hover {
+      transform: translateY(-5px);
+      box-shadow: 
+        0 30px 60px rgba(0, 75, 107, 0.15),
+        0 1px 0 rgba(255, 255, 255, 0.8) inset;
+    }
+
+    .container:hover:before {
+      opacity: 1;
+      transform: rotate(45deg) translate(30%, 30%);
+    }
+
+    .logo-section {
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      color: #004b6b;
+      margin-bottom: 5px;
+      text-shadow: 0 3px 6px rgba(0, 75, 107, 0.15);
+      transition: all 0.3s ease;
+      position: relative;
+      background: linear-gradient(135deg, #004b6b, #006c94);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    h1:hover {
+      transform: scale(1.02);
+      text-shadow: 0 3px 10px rgba(0, 75, 107, 0.25);
+    }
+
+    h1 span {
+      font-weight: bold;
+    }
+
+    .tagline {
+      font-size: 0.95rem;
+      color: #666;
+      font-weight: 500;
+      margin-bottom: 15px;
+      opacity: 0.9;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      font-weight: 600;
+      color: #333;
+      position: relative;
+      z-index: 2;
+      transition: all 0.3s ease;
+    }
+
+    h2:hover {
+      color: #004b6b;
+      transform: translateY(-1px);
+    }
+
+    .description {
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: 25px;
+      color: #555;
+      position: relative;
+      z-index: 2;
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .features {
+      margin-bottom: 25px;
+      position: relative;
+      z-index: 2;
+      perspective: 1000px;
+      height: 280px;
+    }
+
+    .features-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+    }
+
+    .feature-card {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      padding: 20px;
+      width: 260px;
+      height: 180px;
+      transition: all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      border: 2px solid transparent;
+      backdrop-filter: blur(15px);
+      transform-style: preserve-3d;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(0, 75, 107, 0.1);
+    }
+
+    /* Card positioning and depth layers */
+    .feature-card:nth-child(1) {
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) translateZ(0px) scale(1);
+      z-index: 4;
+      border-color: rgba(0, 75, 107, 0.8);
+      box-shadow: 0 15px 40px rgba(0, 75, 107, 0.15);
+      animation: cardCycle1 12s infinite ease-in-out;
+    }
+
+    .feature-card:nth-child(2) {
+      left: 15%;
+      top: 50%;
+      transform: translate(-50%, -50%) translateZ(-100px) scale(0.8);
+      z-index: 3;
+      border-color: rgba(0, 75, 107, 0.4);
+      box-shadow: 0 8px 25px rgba(0, 75, 107, 0.1);
+      opacity: 0.7;
+      animation: cardCycle2 12s infinite ease-in-out;
+    }
+
+    .feature-card:nth-child(3) {
+      left: 85%;
+      top: 50%;
+      transform: translate(-50%, -50%) translateZ(-100px) scale(0.8);
+      z-index: 3;
+      border-color: rgba(0, 75, 107, 0.4);
+      box-shadow: 0 8px 25px rgba(0, 75, 107, 0.1);
+      opacity: 0.7;
+      animation: cardCycle3 12s infinite ease-in-out;
+    }
+
+    .feature-card:nth-child(4) {
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) translateZ(-200px) scale(0.6);
+      z-index: 2;
+      border-color: rgba(0, 75, 107, 0.2);
+      box-shadow: 0 4px 15px rgba(0, 75, 107, 0.05);
+      opacity: 0.4;
+      animation: cardCycle4 12s infinite ease-in-out;
+    }
+
+    /* Cycling animations */
+    @keyframes cardCycle1 {
+      0% { 
+        left: 50%; top: 50%; 
+        transform: translate(-50%, -50%) translateZ(0px) scale(1);
+        z-index: 4; opacity: 1;
+        border-color: rgba(0, 75, 107, 0.8);
+        box-shadow: 0 15px 40px rgba(0, 75, 107, 0.15);
+      }
+      25% { 
+        left: 85%; top: 50%; 
+        transform: translate(-50%, -50%) translateZ(-100px) scale(0.8);
+        z-index: 3; opacity: 0.7;
+        border-color: rgba(0, 75, 107, 0.4);
+        box-shadow: 0 8px 25px rgba(0, 75, 107, 0.1);
+      }
+      50% { 
+        left: 50%; top: 50%; 
+        transform: translate(-50%, -50%) translateZ(-200px) scale(0.6);
+        z-index: 2; opacity: 0.4;
+        border-color: rgba(0, 75, 107, 0.2);
+        box-shadow: 0 4px 15px rgba(0, 75, 107, 0.05);
+      }
+      75% { 
+        left: 15%; top: 50%; 
+        transform: translate(-50%, -50%) translateZ(-100px) scale(0.8);
+        z-index: 3; opacity: 0.7;
+        border-color: rgba(0, 75, 107, 0.4);
+        box-shadow: 0 8px 25px rgba(0, 75, 107, 0.1);
+      }
+      100% { 
+        left: 50%; top: 50%; 
+        transform: translate(-50%, -50%) translateZ(0px) scale(1);
+        z-index: 4; opacity: 1;
+        border-color: rgba(0, 75, 107, 0.8);
+        box-shadow: 0 15px 40px rgba(0, 75, 107, 0.15);
+      }
+    }
+
+    @keyframes cardCycle2 {
+      0% { 
+        left: 15%; top: 50%; 
+        transform: translate(-50%, -50%) translateZ(-100px) scale(0.8);
+        z-index: 3; opacity: 0.7;
+        border-color: rgba(0, 75, 107, 0.4);
+        box-shadow: 0 8px 25px rgba(0, 75, 107, 0.1);
+      }
+      25% { 
+        left: 50%; top: 50%; 
+        transform: translate(-50%, -50%) translateZ(0px) scale(1);
+        z-index: 4; opacity: 1;
+        border-color: rgba(0, 75, 107, 0.8);
+        box-shadow: 0 15px 40px rgba(0, 75, 107, 0.15);
+      }
+      50% { 
+        left: 85%; top: 50%; 
+        transform: translate(-50%, -50%) translateZ(-100px) scale(0.8);
+        z-index: 3; opacity: 0.7;
+        border-color: rgba(0, 75, 107, 0.4);
+        box-shadow: 0 8px 25px rgba(0, 75, 107, 0.1);
+      }
+      75% { 
+        left: 50%; top: 50%; 
+        transform: translate(-50%, -50%) translateZ(-200px) scale(0.6);
+        z-index: 2; opacity: 0.4;
+        border-color: rgba(0, 75, 107, 0.2);
+        box-shadow: 0 4px 15px rgba(0, 75, 107, 0.05);
+      }
+      100% { 
+        left: 15%; top: 50%; 
+        transform: translate(-50%, -50%) translateZ(-100px) scale(0.8);
+        z-index: 3; opacity: 0.7;
+        border-color: rgba(0, 75, 107, 0.4);
+        box-shadow: 0 8px 25px rgba(0, 75, 107, 0.1);
+      }
+    }
+
+    @keyframes cardCycle3 {
+      0% { 
+        left: 85%; top: 50%; 
+        transform: translate(-50%, -50%) translateZ(-100px) scale(0.8);
+        z-index: 3; opacity: 0.7;
+        border-color: rgba(0, 75, 107, 0.4);
+        box-shadow: 0 8px 25px rgba(0, 75, 107, 0.1);
+      }
+      25% { 
+        left: 50%; top: 50%; 
+        transform: translate(-50%, -50%) translateZ(-200px) scale(0.6);
+        z-index: 2; opacity: 0.4;
+        border-color: rgba(0, 75, 107, 0.2);
+        box-shadow: 0 4px 15px rgba(0, 75, 107, 0.05);
+      }
+      50% { 
+        left: 15%; top: 50%; 
+        transform: translate(-50%, -50%) translateZ(-100px) scale(0.8);
+        z-index: 3; opacity: 0.7;
+        border-color: rgba(0, 75, 107, 0.4);
+        box-shadow: 0 8px 25px rgba(0, 75, 107, 0.1);
+      }
+      75% { 
+        left: 50%; top: 50%; 
+        transform: translate(-50%, -50%) translateZ(0px) scale(1);
+        z-index: 4; opacity: 1;
+        border-color: rgba(0, 75, 107, 0.8);
+        box-shadow: 0 15px 40px rgba(0, 75, 107, 0.15);
+      }
+      100% { 
+        left: 85%; top: 50%; 
+        transform: translate(-50%, -50%) translateZ(-100px) scale(0.8);
+        z-index: 3; opacity: 0.7;
+        border-color: rgba(0, 75, 107, 0.4);
+        box-shadow: 0 8px 25px rgba(0, 75, 107, 0.1);
+      }
+    }
+
+    @keyframes cardCycle4 {
+      0% { 
+        left: 50%; top: 50%; 
+        transform: translate(-50%, -50%) translateZ(-200px) scale(0.6);
+        z-index: 2; opacity: 0.4;
+        border-color: rgba(0, 75, 107, 0.2);
+        box-shadow: 0 4px 15px rgba(0, 75, 107, 0.05);
+      }
+      25% { 
+        left: 15%; top: 50%; 
+        transform: translate(-50%, -50%) translateZ(-100px) scale(0.8);
+        z-index: 3; opacity: 0.7;
+        border-color: rgba(0, 75, 107, 0.4);
+        box-shadow: 0 8px 25px rgba(0, 75, 107, 0.1);
+      }
+      50% { 
+        left: 50%; top: 50%; 
+        transform: translate(-50%, -50%) translateZ(0px) scale(1);
+        z-index: 4; opacity: 1;
+        border-color: rgba(0, 75, 107, 0.8);
+        box-shadow: 0 15px 40px rgba(0, 75, 107, 0.15);
+      }
+      75% { 
+        left: 85%; top: 50%; 
+        transform: translate(-50%, -50%) translateZ(-100px) scale(0.8);
+        z-index: 3; opacity: 0.7;
+        border-color: rgba(0, 75, 107, 0.4);
+        box-shadow: 0 8px 25px rgba(0, 75, 107, 0.1);
+      }
+      100% { 
+        left: 50%; top: 50%; 
+        transform: translate(-50%, -50%) translateZ(-200px) scale(0.6);
+        z-index: 2; opacity: 0.4;
+        border-color: rgba(0, 75, 107, 0.2);
+        box-shadow: 0 4px 15px rgba(0, 75, 107, 0.05);
+      }
+    }
+
+    .feature-card:hover {
+      animation-play-state: paused;
+      transform: translate(-50%, -50%) translateZ(50px) scale(1.1) !important;
+      z-index: 10 !important;
+      border-color: rgba(0, 75, 107, 1) !important;
+      box-shadow: 0 20px 50px rgba(0, 75, 107, 0.2) !important;
+      opacity: 1 !important;
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #004b6b, #006c94);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      transition: all 0.4s ease;
+      position: relative;
+      z-index: 2;
+    }
+
+    .feature-icon i {
+      font-size: 1.4rem;
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover .feature-icon {
+      transform: scale(1.15) rotate(8deg);
+      background: linear-gradient(135deg, #006c94, #0088cc);
+      box-shadow: 0 8px 20px rgba(0, 75, 107, 0.3);
+    }
+
+    .feature-title {
+      font-size: 1.05rem;
+      color: #004b6b;
+      margin-bottom: 6px;
+      font-weight: 600;
+      position: relative;
+      z-index: 2;
+      transition: all 0.3s ease;
+    }
+
+    .feature-description {
+      font-size: 0.9rem;
+      color: #666;
+      line-height: 1.35;
+      margin: 0;
+      position: relative;
+      z-index: 2;
+      transition: all 0.3s ease;
+    }
+
+    .cta-section {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #004b6b, #006c94);
+      color: white;
+      padding: 16px 36px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-size: 1.15rem;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 
+        0 8px 20px rgba(0, 75, 107, 0.25),
+        0 1px 0 rgba(255, 255, 255, 0.1) inset;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn:before{
+      content:'';
+      position:absolute;
+      top:0;
+      left:0;
+      width:0%;
+      height:100%;
+      background:linear-gradient(45deg, #006c94, #0088cc);
+      transition:width .4s ease;
+      z-index:-1;
+      border-radius:10px;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 
+        0 15px 30px rgba(0, 75, 107, 0.3),
+        0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    }
+
+    .btn:hover:before {
+      width: 100%;
+    }
+
+    .btn i {
+      margin-right: 8px;
+      font-size: 1.05rem;
+    }
+
+    /* Pause animations on container hover */
+    .features:hover .feature-card {
+      animation-play-state: paused;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .container {
+        padding: 25px 25px;
+        max-width: 95%;
+      }
+      
+      .features {
+        height: 240px;
+      }
+
+      .feature-card {
+        width: 220px;
+        height: 160px;
+        padding: 16px;
+      }
+      
+      h1 {
+        font-size: 2.4rem;
+      }
+      
+      h2 {
+        font-size: 1.4rem;
+      }
+      
+      .description {
+        font-size: 0.95rem;
+      }
+      
+      .btn {
+        padding: 14px 28px;
+        font-size: 1.05rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+      
+      .container {
+        padding: 20px 18px;
+      }
+      
+      h1 {
+        font-size: 2.1rem;
+      }
+      
+      .features {
+        height: 200px;
+      }
+
+      .feature-card {
+        width: 190px;
+        height: 140px;
+        padding: 14px;
+      }
+
+      .feature-icon {
+        width: 42px;
+        height: 42px;
+      }
+
+      .feature-icon i {
+        font-size: 1.2rem;
+      }
+
+      .feature-title {
+        font-size: 0.95rem;
+      }
+
+      .feature-description {
+        font-size: 0.85rem;
+      }
+    }
+
+    /* Loading animation for smooth transitions */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .container > * {
+      animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .logo-section {
+      animation-delay: 0.1s;
+    }
+
+    h2 {
+      animation-delay: 0.2s;
+    }
+
+    .description {
+      animation-delay: 0.25s;
+    }
+
+    .features {
+      animation-delay: 0.3s;
+    }
+
+    .cta-section {
+      animation-delay: 0.4s;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo-section">
+      <h1><span>ResolveMate.</span></h1>
+      <p class="tagline">Ticket Classification & Response System</p>
+    </div>
+    
+    <h2>Streamline Your Customer Support</h2>
+    <p class="description">
+      Organize support tickets with automated categorization, 
+      template responses, and priority detection. Manage customer 
+      requests more efficiently and effectively.
+    </p>
+    
+    <div class="features">
+      <div class="features-container">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-filter"></i>
+          </div>
+          <h3 class="feature-title">Auto Classification</h3>
+          <p class="feature-description">Automatically categorize tickets by type and urgency</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <h3 class="feature-title">Priority Detection</h3>
+          <p class="feature-description">Identify urgent issues and customer sentiment</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <h3 class="feature-title">Quick Responses</h3>
+          <p class="feature-description">Generate template replies for faster resolution</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3 class="feature-title">Track Performance</h3>
+          <p class="feature-description">Monitor ticket history and response patterns</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="cta-section">
+      <a href="{{ url_for('login') }}" class="btn">
+        <i class="fas fa-play"></i>GET STARTED
+      </a>
+    </div>
+  </div>
+</body>
+</html>

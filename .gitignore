@@ -1,0 +1,53 @@
+# ---- Python ----
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.ipynb_checkpoints
+.venv/
+venv/
+env/
+*.log
+
+# ---- OS / Editor Files ----
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ---- Environment / Secrets ----
+*.env
+.env.*
+apikey.txt
+
+# ---- Model & Tokenizer Outputs ----
+*.pt
+*.pth
+*.bin
+tokenizer.json
+tokenizer_config.json
+special_tokens_map.json
+vocab.txt
+
+# ---- Cache / Temp ----
+cache/
+tmp/
+*.joblib
+*.cache/
+template_cache.joblib
+
+# ---- Datasets ----
+
+*.tsv
+*.xlsx
+*.parquet
+customer_support_dataset.csv
+
+# ---- Pip / Build ----
+build/
+dist/
+*.egg-info/
+
+# ---- Jupyter ----
+.ipynb_checkpoints/
+*.nbconvert.ipynb
