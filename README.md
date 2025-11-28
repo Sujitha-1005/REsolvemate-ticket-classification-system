@@ -61,7 +61,7 @@ RESOLVEMATE/
 
 ### 1️⃣ Clone the repository  
 ```bash
-git clone https://github.com/your-username/RESOLVEMATE.git
+git clone https://github.com/Sujitha-1005/REsolvemate-ticket-classification-system.git
 cd RESOLVEMATE
 ```
 
@@ -182,4 +182,5 @@ Feel free to create issues or suggest improvements.
 ## 📜 License
 
 This project is licensed under the **MIT License**.
+
 
